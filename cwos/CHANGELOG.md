@@ -8,6 +8,30 @@ The version here tracks this starter's content evolution. It is independent of t
 
 ---
 
+## [1.1.0] — 2026-06-01
+
+### Added
+
+**Maintenance lane (3 new universal skills + supporting AICONFIG.template.md updates):** ported the maintenance-tooling pattern that emerged from the workspace-chevan May 31, 2026 post-CWOS-migration maintenance pass. These were authored in workspace-chevan (the second CWOS deployment) on 2026-05-31 to codify the drift-detection and periodic-review patterns; brought back into this starter so future CWOS deployments get the tooling lane from day one.
+
+- `operations/cwos/skills/frontmatter-validate/` — detection-only skill that walks every conversation file's YAML frontmatter and reports dangling structural pointers (`companionTo`, `archives`, `parentConversation`, `subConversations`, `relatedDocuments`, `location`, `companionTasks`, plus optional `companionRepo`/`companionPath`). Codifies the 4-rule maintenance pattern (A: cross-system path migrations; B: root-folder relocations; C: stale archive folders; D: sibling renames + dangling drops).
+- `operations/cwos/skills/conversational-maintenance-review/` — periodic detection-only orchestrator. Runs the four-phase sweep (frontmatter validation → size-threshold scan → status/activity scan → optional dedup heuristic) and produces a punch list grouped by which skill should fix each finding. Designed for the CWOS quarterly review schedule. Invokes `frontmatter-validate` for Phase 1.
+- `operations/cwos/skills/cwos-cold-start/` — invokable cold-start session-orientation skill. Reads canonical files (`AICONFIG.md`, `README.md`, `CWOS.md`, `operations/cwos/README.md`, memory index, work-status dashboard if present) and produces an absorbed-state summary covering architecture / repo context / current active work / open re-entry briefs / recent governance decisions. Read-only; the invokable equivalent of the cold-start prompt template in the repo's README.md.
+
+**AICONFIG.template.md updates:**
+
+- New `### Cross-repo pointer convention (hub→spoke companions — optional)` subsection under STANDARDS - WRITING. Documents the Option α field pair (`companionRepo:` + `companionPath:`) backed by a spoke registry. Marked optional — only relevant for hub repos in multi-repo hub-and-spoke setups; skip for single-repo / spoke / polyrepo deployments.
+- New `### Frontmatter validation after restructures` subsection under STANDARDS - MAINTENANCE. Codifies the post-restructure rule: after any folder rename, file relocation, or conversation deletion, run `frontmatter-validate` before committing. Quarterly via `conversational-maintenance-review`.
+- Quarterly periodic-review note updated to reference the orchestrator skill.
+
+**Skills README updates:** restructured the skill listing into four subsections (Core workflow / Maintenance lane / Session orientation / Template) to surface the lane structure that emerged in workspace-chevan.
+
+### Rationale
+
+These additions emerged from the workspace-chevan migration's discovery that CWOS treats frontmatter as the canonical navigation graph, which raised the standard for "navigable" from *findable* (a determined human + AI can locate the target) to *traversable without context* (a fresh agent with no session history can follow only the declared pointers). The maintenance lane codifies the discipline that supports the new standard, and the cold-start skill gives operators an invokable alternative to the text-prompt template. See the case study at chevan-content `knowledgebase/knowledge-architecture/cwos-migration-frontmatter-as-navigation-graph.md` for the conceptual framing.
+
+---
+
 ## [1.0.0] — 2026-06-01
 
 ### Added
