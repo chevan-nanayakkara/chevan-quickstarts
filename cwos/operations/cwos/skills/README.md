@@ -10,9 +10,23 @@ For the Agent Skills format spec, see [`../reference/agent-skills-standard.md`](
 
 ## Skills in this starter
 
+**Core workflow:**
+
 - **[`run-prompt-protocol/`](run-prompt-protocol/SKILL.md)** — Execute a "run prompt" instruction by reading a specified prompt at a timestamp in a conversation file, executing the instruction, then writing the response back as an `[AI Assistant | TIMESTAMP]` entry plus a `[User | +2min]` stub. The core run-prompt workflow used in any repo with the `aiconversations/` extension.
 - **[`conversation-archiving/`](conversation-archiving/SKILL.md)** — Archive content from a conversation file that has exceeded the size threshold. Use when a conversation file is over 75KB and needs to be split into historical archive chunks while preserving an active working file under threshold.
 - **[`cwos-migrate-from-conversational-work/`](cwos-migrate-from-conversational-work/SKILL.md)** — Migrate a repository from the older `operations/conversational-work/` infrastructure to the CWOS architecture. Clean-break approach: build `operations/cwos/` fresh, mark predecessor LEGACY. Three-session structure (Foundation / Skills + reference / Migration + cleanup).
+
+**Maintenance lane** (detection-only; codifies the periodic-review and drift-detection patterns established in the workspace-chevan May 31, 2026 maintenance pass):
+
+- **[`frontmatter-validate/`](frontmatter-validate/SKILL.md)** — Detection-only skill: walks every `aiconversations/**/*.md`, parses YAML frontmatter, checks every structural pointer (`companionTo`, `archives`, `parentConversation`, `subConversations`, `relatedDocuments`, `location`, `companionTasks`, optionally `companionRepo`/`companionPath`) against the filesystem, reports dangling refs file-by-file. Does NOT auto-fix. Run quarterly per the CWOS periodic review schedule, or after any folder rename / restructure. Codifies the 4-rule maintenance pattern (A/B/C/D) for detection.
+- **[`conversational-maintenance-review/`](conversational-maintenance-review/SKILL.md)** — Periodic detection-only orchestrator. Runs the four-phase sweep (frontmatter validation, size-threshold scan, status/activity scan, optional dedup heuristic) and produces a punch list grouped by which CWOS skill should fix each finding. Invokes `frontmatter-validate` for Phase 1; surfaces findings for `conversation-archiving` (Phase 2) and any repo-specific deprecation/archive skill (Phase 3). Designed for the CWOS quarterly review schedule.
+
+**Session orientation:**
+
+- **[`cwos-cold-start/`](cwos-cold-start/SKILL.md)** — Load full CWOS context into the current AI session by reading the canonical files (/AICONFIG.md, /README.md, /CWOS.md, /operations/cwos/README.md, /operations/cwos/memory/MEMORY.md) plus the work-status dashboard and the memory index, then produce an absorbed-state summary covering architecture / repo context / current active work / open re-entry briefs / recent governance decisions. Read-only. Invokable equivalent of the cold-start prompt template in the repo's README.md Session-Start Prompts.
+
+**Template:**
+
 - **[`_template/`](_template/SKILL.md)** — Agent Skills format template. Copy when authoring new skills in a target repo.
 
 ## Authoring repo-specific skills

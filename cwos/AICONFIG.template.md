@@ -155,6 +155,23 @@ For repos using the `aiconversations/` extension (long-form AI dialogue threads)
 - **Entry label convention:** `### [User | DATE TIME]` and `### [AI Assistant | DATE TIME]` — vendor-agnostic. Don't use `[Claude | ...]` or vendor-specific labels.
 - **Timestamp discipline:** always run `date "+%B %-d, %Y %-I:%M%p"` immediately before writing an `[AI Assistant | ...]` entry. Never extrapolate or reuse a session-start timestamp.
 - **Run-prompt protocol:** when the user says "run prompt [User | DATE TIME] in FILE.md," follow the procedure in `operations/cwos/skills/run-prompt-protocol/SKILL.md`. The response always gets written back to the conversation file, not just chat. Always add a `[User | +2min]` stub for the next entry.
+
+### Cross-repo pointer convention (hub→spoke companions — optional)
+
+If this repo is a **hub** in a multi-repo hub-and-spoke setup, conversation files may sometimes need to reference content that lives in a separate spoke repo (typically live code or active output that wasn't migrated to the hub). The Option α convention (adopted as canonical for the workspace-chevan hub on 2026-05-31; portable to any hub) uses a `companionRepo` + `companionPath` field pair in frontmatter:
+
+```yaml
+companionRepo: <spoke-short-name>
+companionPath: /relative/path/from/spoke/root.tsx
+```
+
+- `companionRepo:` is the spoke's short name as registered in `operations/cwos/reference/spoke-registry.md` (if you author one) — it resolves to the spoke's absolute filesystem path
+- `companionPath:` is the path **relative to the spoke's repo root** (starts with `/`)
+- The two fields appear together; either both or neither
+
+For hub-internal companion references (the dominant case), use `companionTo:` with a hub-internal path. The cross-repo fields are opt-in and only relevant when a conversation actually references live spoke content.
+
+The same `Repo` / `Path` pattern extends to other relationship fields when cross-repo references are needed (`parentRepo:` + `parentPath:`, `relatedRepo:` + `relatedPath:`). Skip this convention entirely if the repo is single-repo, a spoke, or polyrepo without a hub.
 - **Size management:** archive conversation files when they exceed 75KB. See `operations/cwos/skills/conversation-archiving/SKILL.md`.
 
 ---
@@ -166,8 +183,16 @@ For repos using the `aiconversations/` extension (long-form AI dialogue threads)
 CWOS-aligned repos benefit from periodic review of memory, skills, and reference content:
 
 - **Monthly:** scan `operations/cwos/memory/` for stale or contradicted entries. Update or archive.
-- **Quarterly:** review skills for drift against actual workflow. Update or retire skills that no longer reflect what's actually done.
+- **Quarterly:** review skills for drift against actual workflow. Update or retire skills that no longer reflect what's actually done. Run the [`conversational-maintenance-review`](operations/cwos/skills/conversational-maintenance-review/SKILL.md) skill orchestrator for the full quarterly sweep (validates frontmatter + flags size-threshold files + flags stalled/completed threads + surfaces possible duplicates).
 - **As-needed:** add ADRs for cross-cutting decisions, re-entry briefs for projects paused for an extended time.
+
+### Frontmatter validation after restructures
+
+The CWOS architecture treats conversation-file YAML frontmatter as the canonical navigation graph. Structural pointers — `companionTo`, `archives`, `parentConversation`, `subConversations`, `relatedDocuments`, `location`, `companionTasks` — must resolve to existing paths, or be intentionally absent.
+
+**Rule:** after any folder rename, file relocation, or conversation deletion, run the [`frontmatter-validate`](operations/cwos/skills/frontmatter-validate/SKILL.md) skill before committing the restructure. The skill reports dangling references file-by-file; apply the 4-rule maintenance pattern (Rule A: cross-system path migrations; Rule B: root-folder relocations; Rule C: stale archive folders; Rule D: sibling renames + dangling drops) to clean any findings.
+
+The canonical worked example of the 4-rule pattern is the workspace-chevan May 31, 2026 maintenance pass — refer to that as the reference implementation when cleaning new findings; the pattern transfers to any CWOS-aligned repo.
 
 ---
 
