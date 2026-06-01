@@ -1,18 +1,18 @@
 ---
 name: Feature Request
-about: Suggest an improvement or new addition
+about: Suggest an improvement, new content, or a new inhabitant
 title: '[FEATURE] '
 labels: enhancement
 assignees: ''
 ---
 
-## Feature Type
+## Feature type
 
 What type of enhancement is this?
-- [ ] New template (shell config, Claude setting, skill)
-- [ ] New guide (platform, tool, workflow)
-- [ ] Improvement to existing template
-- [ ] Improvement to existing guide
+
+- [ ] Improvement to an existing inhabitant (specify which)
+- [ ] New inhabitant (a new starter for a tool, framework, or pattern)
+- [ ] Umbrella-level improvement (umbrella README, CONTRIBUTING, CHANGELOG)
 - [ ] New example or use case
 - [ ] Other (describe below)
 
@@ -20,30 +20,30 @@ What type of enhancement is this?
 
 A clear and concise description of what you'd like to see added or improved.
 
-## Use Case
+## Use case
 
 **Problem this solves:**
 Describe the problem or gap this feature would address.
 
 **Who would benefit:**
-Who would find this useful? (e.g., "macOS users", "people using multiple Git accounts", "teams", etc.)
+Who would find this useful?
 
-## Proposed Solution
+## Proposed solution
 
 Describe what you'd like to happen. Be as specific as possible.
 
 **Example:**
-If you're proposing a new template or guide section, provide a rough outline or example.
+If you're proposing new content, a rough outline or example helps.
 
-## Alternatives Considered
+## Alternatives considered
 
-Have you considered any alternative solutions or workarounds? What are they and why is your proposal better?
+Have you considered alternative solutions or workarounds? What are they and why is your proposal better?
 
-## Additional Context
+## Additional context
 
-Add any other context, screenshots, links, or examples about the feature request here.
+Any other context, screenshots, links, or examples about the feature request.
 
-## Are You Willing to Help?
+## Are you willing to help?
 
 - [ ] I can help implement this (willing to submit a PR)
 - [ ] I can help test this
@@ -52,4 +52,4 @@ Add any other context, screenshots, links, or examples about the feature request
 
 ## Related
 
-Are there any related issues, guides, or templates?
+Any related issues, docs, or starters in the umbrella?

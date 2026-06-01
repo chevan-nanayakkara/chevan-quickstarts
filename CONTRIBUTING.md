@@ -1,144 +1,67 @@
-# Contributing to Claude Code Quickstart
+# Contributing to chevan-quickstarts
 
-Thank you for your interest in contributing to this project! This repository provides production-ready templates and guides for Claude Code CLI, and we welcome contributions that help others set up and use Claude Code effectively.
+This repo is public-domain. Improvements and corrections are welcome.
 
-## How to Contribute
+## Where canonical content lives
 
-### Reporting Issues
+Most inhabitants in this umbrella are derivatives of content authored upstream in the maintainer's working repos.
 
-If you encounter problems or have suggestions:
+- **CWOS** (in `cwos/`): canonical source is currently the maintainer's `chevan-content` repo (private). Changes to `cwos/CWOS.md`, `cwos/CWOS-SETUP.md`, the universal skills, and the reference docs flow from chevan-content downstream to this starter. Suggestions for improvement can be filed here; they'll be evaluated upstream and reflected back.
 
-1. **Check existing issues** - Someone may have already reported it
-2. **Create a new issue** - Use our issue templates for bugs or feature requests
-3. **Provide details:**
-   - What you were trying to do
-   - What happened vs. what you expected
-   - Your environment (OS, Claude Code version, shell)
-   - Steps to reproduce (if applicable)
+After the CWOS canonical files stabilize (probably after 2-3 more real-world deployments), the source-of-truth may flip to this starter, with chevan-content referencing it as a submodule. Until then, treat the starter as a derivative.
 
-### Suggesting Improvements
+## How to suggest improvements
 
-We welcome suggestions for:
-- Template improvements (shell configs, Claude settings, skills)
-- Documentation enhancements
-- New guides or examples
-- Workflow optimizations
-- Additional platform support
+### File a PR
 
-**How to suggest:**
-- Open a GitHub Issue with the "Enhancement" label
-- Describe the improvement and why it would be valuable
-- Include examples or use cases if applicable
+For typos, broken links, formatting fixes, or small clarifications:
 
-### Submitting Pull Requests
+1. Fork the repo
+2. Make the change in the appropriate inhabitant subdirectory
+3. Open a PR with a clear title (`fix(cwos): typo in CWOS-SETUP.md Section 3` or similar)
 
-We love pull requests! Here's how to contribute:
+The PR will be reviewed; for changes that touch canonical CWOS content, the upstream chevan-content will be updated first and the change propagated here.
 
-1. **Fork the repository**
-   ```bash
-   # Click "Fork" on GitHub, then:
-   git clone https://github.com/YOUR-USERNAME/chevan-claude-code-quickstart.git
-   cd chevan-claude-code-quickstart
-   ```
+### File an issue
 
-2. **Create a branch**
-   ```bash
-   git checkout -b feature/your-improvement
-   # or
-   git checkout -b fix/bug-description
-   ```
+For structural suggestions, new inhabitants, or anything bigger than a typo fix:
 
-3. **Make your changes**
-   - Follow existing style and formatting
-   - Test your changes if applicable
-   - Update documentation if needed
+1. Open an issue describing what you'd change and why
+2. The maintainer evaluates and decides whether to do the change, ask for more detail, or decline
 
-4. **Commit your changes**
-   ```bash
-   git add .
-   git commit -m "Brief description of changes"
-   ```
+## Commit message convention
 
-5. **Push and create PR**
-   ```bash
-   git push origin feature/your-improvement
-   # Then create a Pull Request on GitHub
-   ```
+Conventional Commits format: `<type>(<scope>): <description>`. Types in use:
 
-### What We're Looking For
+- `feat`: new content (new inhabitant, new section in an existing inhabitant)
+- `fix`: corrections (typos, broken links, factual errors)
+- `docs`: documentation-only changes
+- `refactor`: structural changes that don't alter content
+- `chore`: maintenance (dependency updates, license updates, etc.)
 
-**Great contributions include:**
+Scope is the inhabitant or umbrella component, e.g., `(cwos)`, `(readme)`.
 
-✅ **Template improvements:**
-- Performance optimizations
-- Better error handling
-- Cross-platform compatibility fixes
-- New useful aliases or functions
+See [`cwos/operations/cwos/reference/conventional-commits.md`](cwos/operations/cwos/reference/conventional-commits.md) for the full reference.
 
-✅ **Documentation:**
-- Clarifications and corrections
-- Additional examples
-- Platform-specific tips
-- Troubleshooting solutions
+## Changelog flow
 
-✅ **New guides:**
-- Platform support (Linux distributions, other shells)
-- Integration guides (other tools, IDEs)
-- Advanced workflow patterns
+This repo follows a two-level changelog convention so contributors and the maintainer have a clear place to record each kind of change:
 
-✅ **Real-world examples:**
-- CLAUDE.md templates for specific use cases
-- Custom skills for common workflows
-- Setup configurations for specific needs
+- **Umbrella `CHANGELOG.md`** at the repo root tracks structural changes: adding or removing inhabitants, top-level renames, license changes, cross-cutting refactors. Major (`X.0.0`) versions get tagged in git.
+- **Per-inhabitant `CHANGELOG.md`** inside each subdirectory (`cwos/CHANGELOG.md`, future inhabitants get their own) tracks changes specific to that starter. Each inhabitant has its own version number, independent of the umbrella.
 
-### Guidelines
+When you submit a PR, add an entry to the **Unreleased** section at the top of the relevant changelog (create the Unreleased section if it doesn't exist yet). On release, the maintainer rolls Unreleased into the next versioned section and tags accordingly.
 
-**For Template Changes:**
-- Keep generic (no personal paths or identifiers)
-- Include comments explaining why/what
-- Test on target platform
-- Maintain backward compatibility when possible
+If your PR touches both the umbrella and an inhabitant, update both changelogs.
 
-**For Documentation:**
-- Use clear, concise language
-- Include code examples where helpful
-- Follow existing markdown formatting
-- Check links and references
+## What this repo is not
 
-**For New Guides:**
-- Follow structure of existing guides
-- Include metadata table at top
-- Provide step-by-step instructions
-- Add troubleshooting section if applicable
+- **Not a community project.** This is a personal umbrella. PRs are reviewed when the maintainer has time; no SLA.
+- **Not a substitute for tool documentation.** Each inhabitant points at the canonical tool/standard it covers (CWOS spec, Anthropic Agent Skills standard, etc.). Read those for authoritative information.
+- **Not a marketing site.** No branding, no commercial framing. If you find it useful, take it; if you don't, no hard feelings.
 
-### Code of Conduct
+## License compatibility
 
-**Be respectful and constructive:**
-- Welcome newcomers and questions
-- Provide helpful, actionable feedback
-- Assume good intentions
-- Focus on what's best for the community
+All content is contributed under the Unlicense. By submitting a PR, you agree your contribution is also released to the public domain.
 
-**Not acceptable:**
-- Harassment or discrimination
-- Unconstructive criticism
-- Spam or off-topic content
-
-## Questions?
-
-- **Not sure if your idea fits?** Open an issue to discuss first
-- **Need help getting started?** Open an issue and ask!
-- **Found a security issue?** Email rather than opening a public issue
-
-## Recognition
-
-Contributors will be:
-- Listed in pull request history
-- Mentioned in CHANGELOG.md
-- Appreciated by the community! 🎉
-
----
-
-**Thank you for helping make this resource better for everyone!**
-
-We're building this together, and every contribution—big or small—makes a difference.
+If a future contribution introduces content with a different license (e.g., MIT-licensed code from another project), declare it clearly in the PR and we'll evaluate compatibility.
