@@ -244,9 +244,13 @@ cat CLAUDE.md | grep -i version                 # current architecture version
 ls ~/.claude/projects/$(pwd | sed 's|/|-|g')/memory/ 2>/dev/null  # Claude memory if any
 ls operations/claude-configs/ 2>/dev/null       # discovery mirror if any
 ls aiconversations/0-work-priority.md 2>/dev/null  # old dashboard name
+
+# Standards consolidation state
+ls operations/conversational-work/ai-configs/github/prompts/ 2>/dev/null
+grep -E "^## STANDARDS - (WRITING|OPERATIONS|MAINTENANCE)" AICONFIG.md 2>/dev/null
 ```
 
-This tells you what to migrate, what to delete, and what to rename.
+This tells you what to migrate, what to delete, what to rename, and whether the predecessor templates need consolidating before the LEGACY notice goes on. See "Standards consolidation" below.
 
 ### Three-session migration structure
 
@@ -302,6 +306,32 @@ If the summary reflects the new architecture, the migration is complete. If not,
 ### Cleanup horizon
 
 After 2-3 months of CWOS operation in the migrated repo, evaluate whether `operations/conversational-work/` can be deleted entirely or kept indefinitely. The LEGACY notice doesn't enforce a deletion timeline — re-evaluate based on whether the folder still has reference value.
+
+### Standards consolidation (if predecessor templates have unconsolidated content)
+
+Older `operations/conversational-work/` deployments used an install-pipeline pattern where standards templates (writing-style.md, conversation-files.md, document-layout.md, essay-workflow.md, content-categories.md, tool-selection.md, working-files.md, core-workflow.md, collaboration-workflows.md, document-size.md, file-operations.md, operator-workflow-guidance.md, portable-project-memory.md, readme-best-practices.md, organization-strategy.md, reorganization.md, config-management.md) lived in `ai-configs/github/prompts/` and got "installed" into AICONFIG.md on demand. CWOS treats AICONFIG.md as the canonical, always-loaded source for standards (writing, operations, maintenance), so any template content that hasn't been consolidated into AICONFIG.md will be functionally orphaned when `operations/conversational-work/` is marked LEGACY.
+
+The pre-flight check identifies three possible states:
+
+- **State A (consolidated):** templates exist AND AICONFIG.md STANDARDS sections are populated → no consolidation work needed; the migration proceeds normally
+- **State B (unconsolidated):** templates exist BUT AICONFIG.md STANDARDS sections are missing or sparse → standards content lives only in templates; must consolidate before marking conversational-work LEGACY
+- **State C (no templates):** templates don't exist → no consolidation question; proceed normally
+
+For State B, do consolidation as part of Session B (alongside skills porting), before Session C marks the predecessor LEGACY. For each `ai-configs/github/prompts/<template>.md`:
+
+1. Read the template file
+2. Identify which AICONFIG.md section it belongs in:
+   - Writing-related templates (writing-style, content-categories, essay-workflow, document-layout, document-size) → `## STANDARDS - WRITING`
+   - Operations-related templates (file-operations, working-files, readme-best-practices, organization-strategy) → `## STANDARDS - OPERATIONS`
+   - Maintenance-related templates (reorganization, config-management) → `## STANDARDS - MAINTENANCE`
+3. Lift the template's behavioral content (rules, conventions, examples) into the corresponding AICONFIG.md section as a new subsection
+4. Skip install/uninstall instructions, version numbers, dependency metadata, and other install-pipeline-specific framing — they don't carry over
+5. If AICONFIG.md doesn't yet have the target STANDARDS section, create it
+6. Commit as `chore(aiconfig): consolidate <template> from predecessor templates` (one commit per template, or one commit per STANDARDS section, whichever reads cleaner)
+
+The canonical worked example of this consolidation is the chevan-content v5.8.x series — see the changelog entries `v5.8.5` through `v5.8.8` in `chevan-content/CLAUDE.md` for what was lifted from each template.
+
+After consolidation completes, Session C's LEGACY notice on `operations/conversational-work/README.md` is safe to apply — the standards content lives in AICONFIG.md as the canonical home, and the templates become historical artifacts.
 
 ---
 

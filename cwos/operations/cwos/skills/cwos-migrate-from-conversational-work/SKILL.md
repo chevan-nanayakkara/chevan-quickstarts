@@ -34,6 +34,10 @@ ls "$HOME/.claude/projects/$(pwd | sed 's|/|-|g')/memory/" 2>/dev/null
 ls operations/claude-configs/ 2>/dev/null
 ls aiconversations/0-work-priority.md 2>/dev/null
 git status --short
+
+# Standards-consolidation audit (added 2026-06-02)
+ls operations/conversational-work/ai-configs/github/prompts/ 2>/dev/null
+grep -E "^## STANDARDS - (WRITING|OPERATIONS|MAINTENANCE)" AICONFIG.md 2>/dev/null
 ```
 
 Surface to the user:
@@ -43,6 +47,12 @@ Surface to the user:
 - Whether `operations/claude-configs/` exists (informs whether to delete it)
 - Whether the old dashboard name `0-work-priority.md` is present (informs whether to rename)
 - Whether working tree is clean (must be clean before starting; uncommitted work goes in a stash or separate commits first)
+- **Standards-consolidation state**: whether `operations/conversational-work/ai-configs/github/prompts/` templates exist AND whether `AICONFIG.md` already has `## STANDARDS - WRITING` / `## STANDARDS - OPERATIONS` / `## STANDARDS - MAINTENANCE` sections populated. Three possible states:
+  - **State A (consolidated):** templates exist AND AICONFIG.md STANDARDS sections are populated → no consolidation work needed; the LEGACY notice in Session C is safe
+  - **State B (unconsolidated):** templates exist BUT AICONFIG.md STANDARDS sections are missing or sparse → standards content lives only in the templates; must consolidate into AICONFIG.md before marking conversational-work LEGACY or the standards content gets functionally orphaned
+  - **State C (no templates):** templates don't exist → no consolidation question; proceed normally
+
+If the target is in State B, flag it as a finding and recommend running a consolidation pass as part of Session B (alongside skills porting). See Session B "Standards consolidation (State B only)" subsection below for the procedure.
 
 ## Procedure
 
@@ -94,19 +104,32 @@ All six files should exist.
 
 6. **Port `mcp-stack.md` if the target repo uses MCP servers.**
 
-**Commits (in two logical groups):**
+7. **Standards consolidation (State B only — added 2026-06-02).** If the pre-flight check identified State B (templates exist in `operations/conversational-work/ai-configs/github/prompts/` but AICONFIG.md's STANDARDS sections are missing or sparse), consolidate template content into AICONFIG.md now. For each template file (`writing-style.md`, `conversation-files.md`, `document-layout.md`, `essay-workflow.md`, `content-categories.md`, `tool-selection.md`, `working-files.md`, `core-workflow.md`, `collaboration-workflows.md`, `document-size.md`, `file-operations.md`, `operator-workflow-guidance.md`, `portable-project-memory.md`, `readme-best-practices.md`, `organization-strategy.md`, `reorganization.md`, `config-management.md`):
+
+   - Read the template file
+   - Identify which AICONFIG.md section it belongs in (Writing → `## STANDARDS - WRITING`; Operations / Templates → `## STANDARDS - OPERATIONS`; Maintenance → `## STANDARDS - MAINTENANCE`)
+   - Lift the template's behavioral content (rules, conventions, examples) into the corresponding AICONFIG.md section as a new subsection
+   - Skip install/uninstall instructions, version numbers, dependency metadata, and other install-pipeline-specific framing — those don't carry over
+   - If AICONFIG.md doesn't yet have the target section, create it
+   - The canonical worked example of this consolidation is the chevan-content v5.8.x series (changelog entries v5.8.5 through v5.8.8 in `chevan-content/CLAUDE.md`)
+
+   This must happen before Session C marks `operations/conversational-work/` LEGACY — otherwise the standards content is functionally orphaned when the install-pipeline pattern is deprecated.
+
+**Commits (in two-to-three logical groups):**
 
 - `feat(cwos): author N skills in Agent Skills standard format`
 - `docs(cwos): port taxonomy and reference standards from <source-repo>`
+- `chore(aiconfig): consolidate standards templates from predecessor into AICONFIG.md` (State B only)
 
 **Verify after Session B:**
 
 ```bash
 ls operations/cwos/skills/*/SKILL.md
 ls operations/cwos/reference/
+grep -E "^## STANDARDS - (WRITING|OPERATIONS|MAINTENANCE)" AICONFIG.md  # confirm all three sections present if State B consolidation ran
 ```
 
-Skills and reference docs should be in place.
+Skills, reference docs, and (if State B) consolidated AICONFIG.md STANDARDS sections should be in place.
 
 ### Session C — Migration + cleanup (~60-90 min)
 

@@ -240,6 +240,15 @@ See the run-prompt-protocol skill in `operations/cwos/skills/` for the executabl
 
 **Archive when files exceed size threshold** (75KB warning, 100KB must-archive). The conversation-archiving skill handles this. Archive chunks live at `aiconversations/archives/<conversation>/<YYYY-MM-DD-HHMM>-archive.md` or sibling location.
 
+**Dual rollup pattern: work-state and project-state.** Two top-level surfaces aggregate distributed information into scannable views:
+
+- **`aiconversations/0-work-status.md`** — work-state dashboard. Tells you *which threads need attention* (active, paused, complete, dormant). Refreshed by the `work-status-dashboard` skill. Table set is repo-specific (life-domain, business-domain, or other groupings).
+- **`aiconversations/0-project.md`** — open-projects rollup. Tells you *what specific projects are open* across all conversations. Aggregated from each conversation's `-tasks.md` "Summary of Open Projects" section. Refreshed by the `open-projects` skill. Same domain grouping as `0-work-status.md` for consistent mental model.
+
+The two surfaces are companions: work-status is the *thread-level* view; the project rollup is the *project-level* view inside those threads. Both are derived from distributed sources (conversation files, `-tasks.md` files), so they never go out of sync — regeneration replaces the previous content. The source files (`-tasks.md` per conversation) remain canonical for project detail; the rollup is read-only-derived for scanning.
+
+This pattern preserves per-conversation isolation as the corpus scales (each `-tasks.md` stays small, scoped to its conversation) while solving the visibility problem that distributed task files otherwise create ("I lose track because I have to open each file to know what's open").
+
 **When to skip aiconversations entirely:**
 
 - Pure code repos that don't accumulate long-form dialogue

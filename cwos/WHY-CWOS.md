@@ -60,6 +60,16 @@ For larger setups, CWOS also describes a hub-and-spoke pattern. One repo serves 
 
 The three layers (memory, inference, reasoning) together give your knowledge a lifetime measured in years rather than sessions. As AI tools improve and inference gets cheaper, the bottleneck shifts from "can the AI do this task" to "does the AI know what we've already decided about this task." CWOS-style memory and procedure capture is what turns better AI from a transient advantage into a durable one.
 
+### A note on what belongs in AICONFIG.md
+
+Writing standards, file-naming conventions, brand guidelines, document-layout rules, voice and tone preferences — these aren't only "AI-behavioral rules." They're standards that apply to anyone (human or AI) working in the repo. AICONFIG.md is the canonical home for all of them because:
+
+1. It's the one file AI tools auto-load, so embedded standards get applied automatically every session
+2. It serves as the canonical reference for humans needing to check conventions
+3. Keeping standards in one place avoids the multi-file drift that older install-pipeline patterns produced (where standards lived in scattered template files that had to be "installed" into a config — each install drifted slightly from the source)
+
+The distinction between "AI rules" and "project conventions" is blurry in practice. Both apply to whoever is doing work. Put them in AICONFIG.md and let one canonical source serve both audiences.
+
 ---
 
 ## CWOS doesn't require git
@@ -261,7 +271,11 @@ If it helps you, take it. If you improve it, send a PR (see [CONTRIBUTING.md](..
 
 ## Status
 
-CWOS is running in production today. The canonical spec evolves as real friction surfaces. This starter at [`chevan-quickstarts/cwos/`](.) is a periodically-synced derivative of the maintainer's reference implementation. Expect minor edits as the spec stabilizes; major structural changes get documented in [CHANGELOG.md](CHANGELOG.md) with migration notes.
+CWOS is running in production today. The canonical spec evolves as real friction surfaces.
+
+**On the source-of-truth direction.** This starter at [`chevan-quickstarts/cwos/`](.) began as a periodically-synced derivative of the maintainer's reference implementation in `chevan-content`. As of June 2026, content flow is becoming bidirectional. The architecture spec, the migration skill, and the foundational documents still originate in `chevan-content`; community-facing improvements like the maintenance lane (frontmatter-validate / conversational-maintenance-review / cwos-cold-start, all authored during the workspace-chevan May 31, 2026 post-CWOS maintenance pass) now originate in workspace-chevan, get pushed here as the public-facing source, and flow back into chevan-content as the reference implementation absorbs them.
+
+The eventual flip — this starter as the canonical upstream, chevan-content referencing it via submodule — remains a future call rather than a current commitment. Expect minor edits as the spec stabilizes; major structural changes get documented in [CHANGELOG.md](CHANGELOG.md) with migration notes.
 
 ---
 

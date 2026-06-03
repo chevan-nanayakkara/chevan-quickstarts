@@ -25,6 +25,11 @@ For the Agent Skills format spec, see [`../reference/agent-skills-standard.md`](
 
 - **[`cwos-cold-start/`](cwos-cold-start/SKILL.md)** — Load full CWOS context into the current AI session by reading the canonical files (/AICONFIG.md, /README.md, /CWOS.md, /operations/cwos/README.md, /operations/cwos/memory/MEMORY.md) plus the work-status dashboard and the memory index, then produce an absorbed-state summary covering architecture / repo context / current active work / open re-entry briefs / recent governance decisions. Read-only. Invokable equivalent of the cold-start prompt template in the repo's README.md Session-Start Prompts.
 
+**Project management:**
+
+- **[`open-projects/`](open-projects/SKILL.md)** — Generate or refresh the centralized open-projects rollup at `/aiconversations/0-project.md` by walking every `aiconversations/**/*-tasks.md` file, extracting each file's "Summary of Open Projects" section, and assembling a domain → conversation → project view. Companion to a repo-specific work-status dashboard — same shape (centralized derived view aggregated from distributed sources), different signal (project tracking vs work-state). The two surfaces answer different questions: work-status tells you *which threads need attention*; this rollup tells you *what specific projects are open*. Authored 2026-06-02 to codify the visibility solution for distributed `-tasks.md` files.
+- **[`refresh-work-management/`](refresh-work-management/SKILL.md)** — Thin orchestrator that refreshes both `0-work-status.md` (via the repo's `work-status-dashboard` skill) and `0-project.md` (via `open-projects`) in sequence, ensuring the two derived views stay in sync. **This is the recommended common-case invocation** for refreshing work-management surfaces; the two underlying skills remain available for edge cases (only-dashboard or only-projects refreshes). Authored 2026-06-02 alongside `open-projects` to codify the composition pattern (over collapsing the two skills into one). Requires the repo to author its own `work-status-dashboard` skill (table set is repo-specific).
+
 **Template:**
 
 - **[`_template/`](_template/SKILL.md)** — Agent Skills format template. Copy when authoring new skills in a target repo.

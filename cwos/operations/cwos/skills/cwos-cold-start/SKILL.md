@@ -1,6 +1,6 @@
 ---
 name: cwos-cold-start
-description: Load full CWOS context into the current AI session by reading the canonical files (/AICONFIG.md, /README.md, /CWOS.md if not already loaded), the current work-status dashboard (if present), and the memory index — then summarize the three-layer split, the always-restart pattern, current active work, and any open re-entry briefs so the operator can verify the AI has absorbed the architecture. Use at the start of a fresh AI session in a CWOS-aligned repo, after Claude Code compaction, when picking up the repo after a multi-week break, or when an AI session has drifted and needs full re-orientation.
+description: Load full CWOS context into the current AI session by reading the canonical files (/AICONFIG.md, /README.md, /CWOS.md if not already loaded), the current work-status dashboard and open-projects rollup (if present), and the memory index — then summarize the three-layer split, the always-restart pattern, current active work, current open projects, and any open re-entry briefs so the operator can verify the AI has absorbed the architecture. Use at the start of a fresh AI session in a CWOS-aligned repo, after Claude Code compaction, when picking up the repo after a multi-week break, or when an AI session has drifted and needs full re-orientation.
 ---
 
 # CWOS Cold Start
@@ -49,16 +49,25 @@ Read the following files in order. For each, confirm absorption by including its
 
 5. **`/operations/cwos/memory/MEMORY.md`** — the memory index (auto-loaded by Claude Code at session start in some configurations, but explicitly re-read here to surface what's available on demand).
 
-### Step 2 — Read the current work surface (if present)
+### Step 2 — Read the current work surfaces (if present)
 
-Read the canonical work-state surface at **`/aiconversations/0-work-status.md`** if the repo uses the aiconversations extension and has this dashboard authored. The dashboard format varies per repo (this starter does not prescribe a specific table set — repos adapt the format to their content domain; chevan-content uses life-domain tables, workspace-chevan uses business-domain tables). Note:
+Two derived rollup surfaces capture different signals; read both if present.
+
+**`/aiconversations/0-work-status.md`** — work-state dashboard (thread-level). Read if the repo uses the aiconversations extension and has this dashboard authored. The dashboard format varies per repo (this starter does not prescribe a specific table set — repos adapt the format to their content domain; chevan-content uses life-domain tables, workspace-chevan uses business-domain tables). Note:
 
 - Which threads are in `Active Work` (what's in flight right now)
 - Which engagements / projects / spokes are active vs paused
 - Which products / initiatives are active
 - Which system / ops threads are in progress
 
-If the repo doesn't have an `0-work-status.md` dashboard yet, skip this step and note in the summary that the dashboard isn't authored — the cold-start may still complete usefully via the foundation-files load.
+**`/aiconversations/0-project.md`** — open-projects rollup (project-level). Read if present (some CWOS deployments use the dual rollup pattern; others use only the dashboard). Note:
+
+- Which specific projects are currently open across the repo, grouped by domain → conversation → project
+- Each row shows status (`in progress` / `not started` / `planning` / `nearly complete` / `ongoing`) and next action
+- The "Files needing cleanup" section at the bottom names `-tasks.md` files that don't use the canonical heading and were therefore not parsed into the rollup
+- Both rollups refresh together via `refresh-work-management`; either can refresh independently via `work-status-dashboard` or `open-projects`
+
+If the repo doesn't have either rollup authored yet, skip this step and note in the summary that the rollups aren't authored — the cold-start may still complete usefully via the foundation-files load.
 
 ### Step 3 — Check for re-entry briefs
 
@@ -84,6 +93,12 @@ Output a structured summary covering:
 
 - Active threads / projects / engagements (list from dashboard)
 - Paused or stalled threads worth knowing about
+
+**Currently open projects from the open-projects rollup (if present):**
+
+- Total currently-open projects: (count from `0-project.md`)
+- Notable in-progress projects requiring near-term attention: (top 3-5 with status + next action)
+- Source files needing cleanup: (count from "Files needing cleanup" section)
 
 **Open re-entry briefs:** (list from `operations/cwos/memory/projects/`)
 
