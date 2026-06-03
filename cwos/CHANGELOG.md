@@ -8,6 +8,44 @@ The version here tracks this starter's content evolution. It is independent of t
 
 ---
 
+## [1.3.0] — 2026-06-02
+
+### Added
+
+**Standards-consolidation step in the migration playbook (closes a real gap that emerged from reviewing the chevan-content migration history).** The original `operations/conversational-work/` install-pipeline pattern stored standards content (writing-style, conversation-files, document-layout, essay-workflow, etc.) in `ai-configs/github/prompts/<template>.md` templates that got "installed" into AICONFIG.md on demand. Migrating a repo that hasn't run the consolidation pass yet would functionally orphan that standards content when the LEGACY notice goes on `operations/conversational-work/`.
+
+- `operations/cwos/skills/cwos-migrate-from-conversational-work/SKILL.md` — pre-flight check expanded to audit standards-consolidation state (templates present? AICONFIG.md STANDARDS sections populated?). Surfaces three states (A: consolidated, B: unconsolidated, C: no templates) and recommends a consolidation pass in Session B if the target is in State B. Session B procedure adds explicit step 7 covering the consolidation work — read each template, identify the right AICONFIG.md section, lift behavioral content, skip install-pipeline metadata, commit as `chore(aiconfig): consolidate ... from predecessor templates`.
+- `CWOS-SETUP.md` "Migrating from operations/conversational-work/" — new "Standards consolidation (if predecessor templates have unconsolidated content)" subsection after "Cleanup horizon." Documents the three states, the per-template lift procedure, the canonical worked example reference (chevan-content v5.8.x changelog entries).
+- Pre-flight check shell snippet in CWOS-SETUP.md migration section also expanded with the consolidation audit (`ls operations/conversational-work/ai-configs/github/prompts/` + `grep STANDARDS AICONFIG.md`).
+
+**"What belongs in AICONFIG.md" framing clarification (clears up a real interpretive ambiguity).** The doc previously left implicit that writing standards, file conventions, brand guidelines, and other "non-AI" configurations are still AICONFIG.md content — the rules apply to humans and AI alike, so AICONFIG.md is the canonical home regardless of who's reading it.
+
+- `cwos/WHY-CWOS.md` — new "### A note on what belongs in AICONFIG.md" subsection at the end of "The approach: three layers." Three-reason framing: AI auto-loads it, humans use it as canonical reference, multi-file drift gets prevented.
+- `cwos/AICONFIG.template.md` — same clarification added under the three-layer-split decision tree. Cross-references CWOS-SETUP.md "Standards consolidation" for migration cases.
+
+### Rationale
+
+These additions emerged from a 2026-06-02 review of the chevan-content migration history (`v5.8.x` consolidation series → `v5.9.0` CWOS migration). The chevan-content case worked cleanly because consolidation predated the migration; the playbook silently assumed that pattern. For repos doing migration without the pre-consolidation work, the gap would functionally orphan standards content. v1.3.0 closes the gap by making the consolidation step explicit and surfacing the audit at pre-flight time.
+
+---
+
+## [1.2.0] — 2026-06-02
+
+### Added
+
+**Project-tracking pattern: distributed `-tasks.md` files with centralized rollup + orchestrator.** Codifies the solution to a visibility problem that emerged in workspace-chevan after months of operation: per-conversation `-tasks.md` files capture project state well, but cross-corpus visibility requires opening each file individually. The fix is a derived rollup that aggregates without breaking the capture convention, plus a thin orchestrator that refreshes both rollup surfaces in sync.
+
+- `operations/cwos/skills/open-projects/` — new skill that walks `aiconversations/**/*-tasks.md`, extracts each file's "Summary of Open Projects" section, and assembles a domain → conversation → project view at `aiconversations/0-project.md`. Derived view; the `-tasks.md` files remain canonical detail. Companion to a repo-specific work-status dashboard (different signal, same shape). Only currently-open projects appear in the rollup; completed work stays in the source files. Skill auto-detects the repo's domain grouping from `0-work-status.md`'s top-level headings (or falls back to grouping by `aiconversations/` top-level folder if no dashboard exists yet).
+- `operations/cwos/skills/refresh-work-management/` — thin orchestrator that invokes the repo's `work-status-dashboard` skill and the `open-projects` skill in sequence, ensuring both derived surfaces stay in sync. Composition pattern (over collapsing the two skills into one), matching the pattern already used by `conversational-maintenance-review` and `cwos-cold-start`. Recommended common-case invocation for "refresh the work management surfaces"; the two underlying skills remain available for edge cases.
+- `AICONFIG.template.md` STANDARDS - OPERATIONS gains a new "Project tracking — distributed `-tasks.md` files with centralized rollup" subsection inside Conversation Files. Documents the capture/visibility split and points at the `open-projects` and `refresh-work-management` skills.
+- `CWOS.md` "aiconversations — long-form dialogue threads" section gains a "Dual rollup pattern: work-state and project-state" subsection. Frames the two derived surfaces (`0-work-status.md` for thread-level, `0-project.md` for project-level) at the architecture level so future readers see the pattern as part of the aiconversations extension's design, not as a hidden skill.
+
+### Rationale
+
+The pattern emerged on 2026-06-02 when the workspace-chevan operator noticed that distributed `-tasks.md` files were going stale and undiscovered. The first instinct was to centralize all project tracking into a single file, but size analysis showed that approach would require structural rotation rules to bound growth — essentially recreating per-file isolation inside one big file. The cleaner answer was to add a rollup (derived view) alongside the existing `-tasks.md` files. This v1.2.0 codifies the rollup pattern at the starter level so future CWOS deployments get it from day one. Companion case study lives at the chevan-content knowledgebase (`knowledgebase/knowledge-architecture/cwos-migration-frontmatter-as-navigation-graph.md`) — the project-tracking pattern is part of the same operational maturity lane as the frontmatter-as-navigation-graph work.
+
+---
+
 ## [1.1.0] — 2026-06-01
 
 ### Added
