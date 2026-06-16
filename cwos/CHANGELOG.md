@@ -8,6 +8,27 @@ The version here tracks this starter's content evolution. It is independent of t
 
 ---
 
+## [1.6.0] — 2026-06-16
+
+### Changed
+
+**`refresh-work-management` skill extended to chain `prioritize-open-projects` as Step 3.** Previously the orchestrator ran two steps (dashboard refresh + projects rollup refresh); now it runs three steps with prioritization as the final read-only analytic pass. Single command (`refresh work management`) now produces the full work-management workflow: dashboard + rollup + priority outline.
+
+- Description updated to mention the prioritization step explicitly so the AI invokes the orchestrator on prompts like "what should I work on?" as well as the prior "refresh the dashboards" / "what's active?" triggers.
+- New `--skip-prioritize` flag preserves the v1.5.x and earlier two-step behavior for cases where the operator wants refresh without analysis.
+- New Step 3 in the procedure invokes `prioritize-open-projects` against the just-refreshed rollup.
+- Combined report (Step 4) expanded with a "Priority outline" section showing tiers produced, "Recommended focus this week" pick, and closure candidates flagged.
+
+The three underlying skills (`work-status-dashboard`, `open-projects`, `prioritize-open-projects`) remain independently invokable. The orchestrator is the recommended common case; the individual skills are for edge cases (only-dashboard, only-projects, only-prioritize).
+
+### Notes
+
+This is a behavioral change to an existing skill — bumped MINOR per SemVer. Operators who scripted the orchestrator's prior two-step behavior can pass `--skip-prioritize` to preserve it.
+
+Driving conversation: chevan-content `aiconversations/_system/operations/conversational-work-operations-conversation.md` (entry 2026-06-16 5:31PM).
+
+---
+
 ## [1.5.0] — 2026-06-16
 
 ### Added
