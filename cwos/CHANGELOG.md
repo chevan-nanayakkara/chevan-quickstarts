@@ -8,6 +8,28 @@ The version here tracks this starter's content evolution. It is independent of t
 
 ---
 
+## [1.5.0] — 2026-06-16
+
+### Added
+
+**`prioritize-open-projects` skill** at `operations/cwos/skills/prioritize-open-projects/`. Reads the open-projects rollup (or walks `-tasks.md` files directly) and produces a priority-ranked tier outline (P1-P7-ish) with reasoning per tier and an honest "recommended focus this week" pick of 1-3 items. Read-only — does NOT modify `0-project.md`, `0-work-status.md`, or any `-tasks.md` file. Closes the gap between `open-projects` (which says *what's open*) and operator decision-making (which needs *what to do first*).
+
+**Dashboard template files** at `aiconversations/`:
+
+- `0-work-status.template.md` — Work-status dashboard skeleton with frontmatter, placeholder table set (5 tables with `{{TABLE N NAME}}` placeholders), and table-set adaptation notes. Bootstrappers copy and customize for their content domains.
+- `0-project.template.md` — Open-projects rollup skeleton with frontmatter and domain placeholders. After bootstrap, the `open-projects` skill regenerates the content from real `-tasks.md` data.
+- `README.md` for the folder explains the bootstrap procedure, the rationale for shipping templates (the dashboard FILE follows a stable shape; the dashboard-refresh SKILL stays repo-specific because table-set logic varies per repo).
+
+### Notes
+
+The companion `work-status-dashboard` skill is still NOT shipped in the CWOS starter — that remains a repo-specific authoring exercise per the existing v1.2.0 / v1.4.0 architectural decision. Shipping the dashboard template files closes a different gap: bootstrappers now have a structural starting point for the FILE without having to derive it from scratch, even though they still author the refresh SKILL themselves.
+
+The reverse-parity tasks-file refinements from chevan-content v5.11.0 Part 2 (bullet-list summary, "Closed / Completed Projects" naming, "Project N:" numbering, "Why this order" rationale) are still NOT ported into `AICONFIG.template.md` — separate decision, still candidate for a later v1.6.0 if a bootstrapper wants the full Tasks File Structure standard pre-shipped rather than authored from scratch per repo.
+
+Driving conversation: chevan-content `aiconversations/_system/operations/conversational-work-operations-conversation.md` (entry 2026-06-16 5:18PM).
+
+---
+
 ## [1.4.0] — 2026-06-16
 
 ### Changed
