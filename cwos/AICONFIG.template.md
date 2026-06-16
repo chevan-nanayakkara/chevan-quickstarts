@@ -235,7 +235,3 @@ The canonical worked example of the 4-rule pattern is the workspace-chevan May 3
 - {{DATE}} — v1.0.0: Initial CWOS bootstrap. AICONFIG.md authored from chevan-quickstarts template.
 
 (Add subsequent version entries in descending date order.)
-
----
-
-[End of Document]

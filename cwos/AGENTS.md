@@ -24,5 +24,3 @@ The thin-pointer pattern keeps content single-source. Vendor entry points provid
 ---
 
 **Template note:** this file is generic. When deployed in a target repo, the links above resolve to that repo's actual files. If a target repo doesn't yet have `AICONFIG.md` or `CWOS.md` at the expected paths, see [`CWOS-SETUP.md`](CWOS-SETUP.md) for the bootstrap procedure.
-
-[End of Document]

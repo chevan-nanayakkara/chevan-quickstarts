@@ -8,6 +8,33 @@ The version here tracks this starter's content evolution. It is independent of t
 
 ---
 
+## [1.4.0] — 2026-06-16
+
+### Changed
+
+**`[End of Document]` marker deprecated for formal documents (parity with chevan-content v5.11.0 and workspace-chevan's earlier June 3, 2026 deprecation).** The marker added noise without value — git history is the record of completeness. Exception preserved: archive chunks still end with `[End of Document]` as an immutable historical record. Active conversation files end with the trailing user placeholder stub (already canonical).
+
+Anyone bootstrapping a new CWOS repo from this starter no longer inherits the deprecated rule.
+
+### Removed
+
+- Trailing `[End of Document]` markers stripped from the four canonical starter files that carried them:
+  - `cwos/AICONFIG.template.md`
+  - `cwos/WHY-CWOS.md`
+  - `cwos/CWOS-SETUP.md`
+  - `cwos/AGENTS.md`
+- `cwos/CWOS.md` and `cwos/README.md` were already free of the marker; no change needed.
+
+### Notes
+
+The chevan-quickstarts `AICONFIG.template.md` Formatting section had already been free of the explicit "End of document marker" rule for some time, so no behavioral-rule edit was needed there — this release is the file-content sweep that aligns the starter's own files with the rule's absence.
+
+Reverse parity from workspace-chevan's June 10, 2026 tasks-file refinements (bullet-list summary, "Closed / Completed Projects" naming, "Project N:" numbering prefix, "Why this order" rationale) was NOT brought into this template release — those refinements live in chevan-content `AICONFIG.md` (v5.11.0) and workspace-chevan `AICONFIG.md`. They can be lifted into `chevan-quickstarts/cwos/AICONFIG.template.md` as a future v1.5.0 if a target repo bootstrapper wants the full Tasks File Structure standard pre-shipped rather than authored from scratch per repo.
+
+Driving conversation: chevan-content `aiconversations/_system/operations/conversational-work-operations-conversation.md` (entry 2026-06-16 3:14PM).
+
+---
+
 ## [1.3.0] — 2026-06-02
 
 ### Added

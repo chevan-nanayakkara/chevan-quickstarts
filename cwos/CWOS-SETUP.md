@@ -448,7 +448,3 @@ Once set up, the operating cycle:
 CWOS-SETUP.md should evolve as you spin up more repos and learn what's actually friction. If you find a step that consistently needs adaptation, document the adaptation here. If a step is rarely useful, mark it optional or remove it.
 
 This guide is a snapshot of current bootstrap practice; not a permanent contract.
-
----
-
-[End of Document]

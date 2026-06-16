@@ -318,7 +318,3 @@ Plain-language definitions of the AI and developer terms used above, for readers
 - **[CWOS-SETUP.md](CWOS-SETUP.md)** to bootstrap a new repo or to migrate an existing one with `operations/conversational-work/` predecessor infrastructure.
 - **[operations/cwos/reference/taxonomy.md](operations/cwos/reference/taxonomy.md)** if a term in the spec is unfamiliar.
 - **[README.md](README.md)** for the inhabitant overview and three consumption patterns.
-
----
-
-[End of Document]
