@@ -10,6 +10,7 @@ Standing knowledge for CWOS-aligned repos. These docs don't change frequently; t
 - **[`conventional-commits.md`](conventional-commits.md)** — Conventional Commits format reference. Types (feat, fix, docs, chore, refactor, etc.), scope syntax, breaking-change conventions, examples.
 - **[`agent-skills-standard.md`](agent-skills-standard.md)** — Anthropic Agent Skills standard reference. Format spec (YAML frontmatter, SKILL.md body, supporting files like scripts/ and references/ and assets/), authoring guidance, when skills are useful vs overkill.
 - **[`mcp-stack.md`](mcp-stack.md)** — Model Context Protocol (MCP) server configuration reference. Common MCP servers, configuration patterns, vendor-specific setup notes.
+- **[`permissions-posture-ce.md`](permissions-posture-ce.md)** — The C+E permissions posture: a recommended starting shape for `.claude/settings.local.json`. Three layers (auto-allow read tools + Edit; ask gates Write and mutating Bash; hard-deny destructive Bash). Codified in workspace-chevan June 14, 2026; ported to chevan-content and chevan-quickstarts June 16, 2026. Includes per-repo customization guidance and verification probes.
 
 ## Adding repo-specific reference docs
 

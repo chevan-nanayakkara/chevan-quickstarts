@@ -63,6 +63,18 @@ Within each domain, group by source conversation (one subsection per conversatio
 
 ### Step 4 — Author the rollup file
 
+**Preserve the manually-maintained `## Priority View` section if present.** Before writing, read the current `0-project.md` if it exists. Capture everything between `## Priority View` and the next top-level `## ` heading (typically `## 1. <Domain Name>`). This is the operator's hand-maintained priority outline (tiered P1-P4 style), distinct from the auto-derived domain rollup that this skill regenerates. The `prioritize-open-projects` skill produces an ephemeral version of this content; the persistent home is here. **Do not overwrite or reformat the section** — it is excluded from the regeneration scope.
+
+After the regeneration, the new file's structure is:
+
+1. Frontmatter (regenerated — see schema below).
+2. Header + intro paragraphs (regenerated).
+3. `## Priority View` block (preserved verbatim from the prior file if present; omitted if not).
+4. `## 1. <Domain>` through `## N. <Domain>` (regenerated — the actual rollup body).
+5. `## Files needing cleanup` (regenerated).
+
+If `0-project.md` does not exist yet, the Priority View block is also not written by this skill — the operator adds it on first manual edit, and subsequent regenerations preserve it.
+
 Write to `aiconversations/0-project.md`. Frontmatter:
 
 ```yaml
@@ -144,6 +156,7 @@ A run with format inconsistencies surfaces them as "Files needing cleanup" findi
 ## Don't do
 
 - **Don't modify source `-tasks.md` files.** This skill is rollup-only. If `-tasks.md` files need cleanup, that's a separate operation the operator triggers.
+- **Don't overwrite the `## Priority View` section** if the existing `0-project.md` has one. It's a manually-maintained surface (introduced June 17, 2026) carrying the tiered priority outline; this skill preserves it verbatim between regenerations of the domain rollup body. The `prioritize-open-projects` skill is the corresponding generator for that section's content.
 - **Don't include completed projects in the rollup body.** The rollup is "what needs attention." Completed work shows up in the work-status dashboard's status field for the parent conversation, and the source `-tasks.md` files retain the full completed history.
 - **Don't include body-text-derived TODOs.** Only structured "Summary of Open Projects" section content counts. Inline TODOs in conversation bodies are out of scope (future enhancement if needed).
 - **Don't try to infer staleness.** Surface `lastUpdated` per row; let the operator (or a downstream skill like `conversational-maintenance-review`) decide what to flag as stale.

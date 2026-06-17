@@ -1,8 +1,9 @@
 ---
 documentType: Open Projects Rollup
 purpose: Centralized derived view of all currently-open projects across the repo's per-conversation -tasks.md files. Detail lives in the source files; this rollup is the scanning surface.
-version: 1.0.0
-versionNote: <one-line; document recent rollup refreshes here>
+version: 1.1.0
+versionNote: |
+  June 17, 2026 — added Priority View section template at top of file. Manually maintained surface for the tiered priority outline ("what to work on next?"); distinct from the auto-derived domain rollup body. Pattern originated in workspace-chevan June 17, 2026.
 lastUpdated: {{DATE}}
 status: Active - In Use
 location: /aiconversations/0-project.md
@@ -21,6 +22,38 @@ Centralized view of open projects across all `aiconversations/**/*-tasks.md` fil
 **Prioritize:** invoke the [`prioritize-open-projects`](/operations/cwos/skills/prioritize-open-projects/SKILL.md) skill to produce a ranked tier outline (P1-P7-ish) with reasoning, identifying what to focus on this week.
 
 **Canonical structure note:** the section numbering below (`## 1. Domain Name` through `## N. Domain Name`) MUST mirror the table set in `/aiconversations/0-work-status.md`. This makes the cross-reference between the two surfaces explicit — a project listed under `## 2. Client Engagements` here corresponds to a conversation tracked in `## 2. Client Engagements` over there. Numbering parity is the canonical pattern; don't drop the numbers or use different domain labels between the two files.
+
+---
+
+## Priority View
+
+*Manually maintained surface. Sits above the auto-derived domain rollup below. Captures the tiered priority outline (P1–P4 style) — the answer to "what should I work on next?" Distinct from the rest of this file, which answers "what specific projects are open?" The [`prioritize-open-projects`](/operations/cwos/skills/prioritize-open-projects/SKILL.md) skill produces an ephemeral version of this analysis on demand; this section is the persistent home where the latest tiered view lives. Refresh manually when tiers shift, when items close, or when new cross-cutting work surfaces.*
+
+**Refresh discipline:** when an item below ships, mark [X] here AND in the source `-tasks.md` file (canonical state). When tiers shift, update the recommendation footer. The `open-projects` skill that regenerates the rest of this file deliberately preserves this section — do not rely on the skill to update it.
+
+**Pattern source:** introduced in workspace-chevan June 17, 2026; adopted into chevan-content the same day; codified here as the recommended starting shape for new CWOS-aligned repos.
+
+**Last refresh:** {{DATE — populate when first used}}
+
+### Tier 1 — small unblockers (30-45 min focused block)
+
+- [ ] *(example)* **{{ITEM_NAME}} — {{short description}}.** *Source:* {{tasks-file-path}} {{project-name}}.
+
+*(Populate with the actual priorities — items pulled from across `-tasks.md` files or surfaced from conversations.)*
+
+### Tier 2 — codify decisions while context is fresh
+
+- [ ] *(example)* **{{ITEM_NAME}} — {{description}}.** *Source:* {{location}}.
+
+### Tier 3 — engagement-critical + housekeeping
+
+- [ ] *(example)* **{{ITEM_NAME}} — {{description}}.** *Source:* {{location}}.
+
+### Tier 4 — ongoing tracks at their own cadence
+
+- [ ] *(example)* **{{ITEM_NAME}} — {{description}}.** *Source:* {{location}}.
+
+**Recommendation as of {{DATE}}:** *(short narrative — which tier is the highest-leverage 30-45 minute next session, and any cross-cutting context. Optional but useful.)*
 
 ---
 

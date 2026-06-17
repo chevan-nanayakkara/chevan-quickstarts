@@ -8,6 +8,30 @@ The version here tracks this starter's content evolution. It is independent of t
 
 ---
 
+## [1.9.0] — 2026-06-17
+
+### Added
+
+**`## Priority View` section pattern in `aiconversations/0-project.template.md`.** Pattern originated in workspace-chevan June 17, 2026. Manually-maintained tiered priority outline (P1-P4 style) sits above the auto-derived domain rollup body. Answers "what should I work on next?" — distinct from the auto-derived rollup which answers "what specific projects are open?" The `prioritize-open-projects` skill produces an ephemeral version of this analysis on demand; the Priority View section is the persistent home where the latest tiered view lives.
+
+**`operations/cwos/skills/open-projects/SKILL.md` updated to preserve the Priority View section on regeneration.** Step 4 of the skill explicitly captures everything between `## Priority View` and the next top-level `## ` heading, holds it, and writes it back verbatim after the auto-derived rollup body is regenerated. Operator's hand-maintained content is never overwritten by the regeneration. If `0-project.md` does not exist yet, the Priority View block is also not written by the skill — the operator adds it on first manual edit, and subsequent regenerations preserve it.
+
+**`operations/cwos/reference/permissions-posture-ce.md`** — new reference doc documenting the C+E permissions posture as the recommended starting shape for `.claude/settings.local.json` in CWOS-aligned repos. Three-layer model: auto-allow read tools + Edit/MultiEdit + read-only Bash + read-only `gh`; ask gates Write and mutating Bash; hard-deny destructive Bash. Codified in workspace-chevan June 14, 2026; ported to chevan-content and chevan-quickstarts June 16, 2026. Includes background (March 2026 incident rationale), three-layer detail, per-repo customization guidance, verification probes.
+
+`operations/cwos/reference/README.md` index updated to include the new doc.
+
+### Notes
+
+The Priority View pattern keeps the manual-prioritization layer in the same file as the auto-derived rollup, so a single read gives the operator both *what's open* and *what to do first*. The skill's preservation logic makes the pattern safe to use — operators can hand-edit the Priority View freely without worrying about the next auto-regeneration clobbering their work.
+
+The C+E permissions reference doc joins the existing reference set (`taxonomy.md`, `conventional-commits.md`, `agent-skills-standard.md`, `mcp-stack.md`) — five reference docs now in the CWOS starter. Future bootstrappers get the recommended permissions shape documented upfront rather than discovered through trial and error.
+
+Bumped MINOR per SemVer (new pattern + new reference doc + behavioral change to existing skill, backward-compatible via the if-not-present fallback).
+
+Driving conversation: chevan-content `aiconversations/_system/operations/conversational-work-operations-conversation.md` (entry 2026-06-16 10:16PM refresh batch).
+
+---
+
 ## [1.8.0] — 2026-06-16
 
 ### Added
