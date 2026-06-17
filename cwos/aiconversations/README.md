@@ -7,6 +7,55 @@ This folder ships **template files** for the two centralized derived views that 
 
 Both files use `{{DATE}}` and other placeholders that get replaced when copied into a target repo. Drop the `.template` suffix when copying.
 
+## Canonical structure rules (apply to both files in every CWOS-aligned repo)
+
+These are the structural invariants. Per-repo content (specific table labels, project lists, activity rows) varies; the structure does not.
+
+### Frontmatter schema
+
+Both `0-work-status.md` and `0-project.md` use a parallel lean YAML frontmatter:
+
+```yaml
+---
+documentType: <Work-Status Dashboard | Open Projects Rollup>
+purpose: <one-line description>
+version: <semver, optional but recommended>
+versionNote: <one-line, optional — document recent refreshes here>
+lastUpdated: <YYYY-MM-DD>
+lastUpdatedNote: <multi-line, optional — for activity-since-last-refresh detail; useful in 0-work-status.md>
+status: <Active - In Use | Active - Stub | Archived>
+location: /aiconversations/<filename>
+companionSurface: /aiconversations/<the other file>
+generatedBy: /operations/cwos/skills/open-projects/SKILL.md   # 0-project.md only
+---
+```
+
+Drop unused optional fields rather than carrying empty ones. Keep `companionSurface:` pointing at the sibling file in both directions.
+
+### Section structure
+
+**`0-work-status.md`:**
+
+1. Brief intro paragraph + refresh-invocation note + canonical-structure note
+2. **N tables** as `## 1. Domain Name` through `## N. Domain Name` (3-5 typical). Each table has columns: `# | Conversation | Folder | Size | Last Activity Summary`. Rows sorted by most-recent activity within each table.
+3. **Maintenance notes** (or "Notes") section after the tables — refresh discipline, recent maintenance, structural conventions.
+4. **Conversational Work Help** section — the canonical skill-invocation reference block (same content across all CWOS repos for cross-repo consistency; see existing implementations in chevan-content / workspace-chevan / this template).
+
+**`0-project.md`:**
+
+1. Brief intro paragraph + refresh + prioritize invocation notes + canonical-structure note
+2. **N domain sections** as `## 1. Domain Name` through `## N. Domain Name` — numbering and labels MUST mirror `0-work-status.md`'s table set. Each section has nested `### [tasks-file-name.md](path)` H3 entries; under each H3, a bullet list of open projects (ideally with `**Project N:**` prefix from the source file).
+3. **Files needing cleanup** section (optional) — `-tasks.md` files that don't yet follow the standard layout; surfaced by the `open-projects` skill.
+4. **Notes on this rollup** section — regeneration policy, format expectations, link to the tasks-file standard in AICONFIG.md.
+
+### Mirror rule
+
+The single most important canonical pattern: `0-project.md` section numbering and labels MUST mirror `0-work-status.md` table set. This makes cross-reference between the two surfaces explicit — Table 2 in the dashboard corresponds to Section 2 in the rollup. Operators (and the `prioritize-open-projects` skill) rely on this parity.
+
+### Tasks file structure
+
+See `AICONFIG.template.md` → `## STANDARDS - OPERATIONS` → `### Project tracking` → `#### Tasks File Structure (Standard)` for the canonical four-section layout (Summary of Open Projects / Notes/Reference / Open Projects / Closed / Completed Projects), four-level hierarchy (`### Project N:` / `#### Phase N:` / `**Deliverable**` / `- [ ] Task`), and rationale.
+
 ## Bootstrap procedure
 
 When setting up a new CWOS-aligned repo with the `aiconversations/` extension:

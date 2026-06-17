@@ -8,6 +8,42 @@ The version here tracks this starter's content evolution. It is independent of t
 
 ---
 
+## [1.7.0] — 2026-06-16
+
+### Added
+
+**`#### Tasks File Structure (Standard)` subsection in `AICONFIG.template.md`** — codifies the four-section layout (Summary of Open Projects / Notes/Reference / Open Projects / Closed / Completed Projects), four-level hierarchy (`### Project N:` / `#### Phase N:` / `**Deliverable**` / `- [ ] Task`), and the "Why this section order" rationale. Lifted from chevan-content `AICONFIG.md` (v5.11.0 codification) and workspace-chevan `AICONFIG.md` (June 10, 2026 originator). Was flagged as candidate v1.5.0 / v1.6.0 work in prior changelog entries; now shipped.
+
+**`Conversational Work Help` section in `aiconversations/0-work-status.template.md`** — the canonical skill-invocation reference block (work management, conversation file maintenance, session orientation, run-prompt workflow, bootstrap/migration, skill management, configuration sources, standing rules). Same content the implementation repos (chevan-content, workspace-chevan) use, with one principled adaptation noting that `work-status-dashboard` skill is repo-specific and not shipped in the starter.
+
+### Changed
+
+**Canonical structure rules codified in `aiconversations/README.md`** — the structural invariants for `0-work-status.md` and `0-project.md` across CWOS-aligned repos:
+
+- Parallel lean frontmatter schema (documentType / purpose / version / versionNote / lastUpdated / lastUpdatedNote / status / location / companionSurface / generatedBy).
+- 0-work-status.md section structure: tables (`## N. Domain Name`) + Maintenance notes + Conversational Work Help.
+- 0-project.md section structure: domain sections mirroring 0-work-status.md's table set + Files needing cleanup (optional) + Notes on this rollup.
+- **Mirror rule**: 0-project.md section numbering and labels MUST mirror 0-work-status.md's table set so the two surfaces cross-reference cleanly.
+
+**`aiconversations/0-work-status.template.md` frontmatter cleaned up to canonical lean schema** — switched from the prior multi-line `purpose: |` block to a one-line `purpose:`; added `version` + `versionNote` fields; consolidated the `lastUpdatedNote:` description. Added a "Canonical structure note" paragraph in the template body explaining the mirror rule with `0-project.md`.
+
+**`aiconversations/0-project.template.md` restructured to use mirror-numbering** — sections changed from `## DOMAIN 1` to `## 1. Domain Name` to match the dashboard's table numbering convention. Added "Canonical structure note" paragraph explaining the mirror rule. Added optional "Files needing cleanup" section between the domain sections and Notes section. Frontmatter aligned to the canonical schema.
+
+### Notes
+
+These changes close the structural-parity gap between `0-work-status.md` and `0-project.md` across the three CWOS implementation repos. Future bootstraps now have:
+
+- A documented frontmatter schema (lean, optional-field-aware)
+- A documented section structure for both files
+- The mirror rule made explicit (cross-reference between dashboard tables and rollup sections)
+- The tasks-file standard available in the AICONFIG template (no more need to re-author per repo)
+
+The existing implementation repos (chevan-content, workspace-chevan) have files that mostly match the canonical structure but with legacy frontmatter shape differences. Per the standing "don't force a one-off reshuffle" rule, those files converge naturally at the next meaningful edit rather than via a forced rewrite.
+
+Driving conversation: chevan-content `aiconversations/_system/operations/conversational-work-operations-conversation.md` (entry 2026-06-16 5:50PM).
+
+---
+
 ## [1.6.0] — 2026-06-16
 
 ### Changed

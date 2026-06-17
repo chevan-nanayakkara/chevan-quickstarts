@@ -179,6 +179,45 @@ For repos using the `aiconversations/` extension with companion task tracking, t
 
 The split (capture in `-tasks.md`, visibility in `0-project.md`) preserves per-conversation isolation as the corpus scales while solving the "I lose track of distributed task files" visibility problem. See the `open-projects` skill for the full procedure and `CWOS.md` for the architectural framing.
 
+#### Tasks File Structure (Standard)
+
+**Four-Section Layout:**
+
+Every `-tasks.md` file uses this four-section layout, in this order.
+
+1. **Summary of Open Projects** — Bullet list at the top showing only active/open projects with one-line digest per project (number, name, status, key dependency or next-action signal). Bullets, not a table (per the no-markdown-tables formatting rule). Remove rows when projects move to Closed / Completed Projects.
+2. **Notes/Reference** — Catch-all for context the open work depends on: session-starter prompts, key file pointers, design decisions, glossary entries, links to ADRs / decision logs / sibling conversations, plus any other notes that don't belong inside a project. The "what an operator needs to know to engage" section. Living document; prune as projects close out.
+3. **Open Projects** — Detailed project / phase / deliverable / task breakdown for everything currently in flight. One H3 per project.
+4. **Closed / Completed Projects** — Historical record. Each entry includes what was delivered, completion date, file references, and any follow-up context worth keeping. Append-only; do not prune. (Section name covers both completed-with-delivery and closed-without-completion.)
+
+**Four-Level Hierarchy:**
+
+Within the Open Projects and Closed / Completed Projects sections, use this hierarchy:
+
+- **Project** (H3, prefixed with "Project N:"): `### Project 1: Config Enhancement`
+- **Phase** (H4): `#### Phase 1: Research`
+- **Deliverable** (bold text): `**Enhancement spec document**`
+- **Task** (checkbox): `- [x] Draft spec outline`
+
+The numbering prefix (`Project N:`) enables stable cross-document references ("see Project 3 in `media-platform-work-tasks.md`") and survives renames better than name-only references.
+
+**Summary List:**
+
+The summary list at the top provides at-a-glance status for all active work. Only include open/active projects — when a project completes, remove it from the summary list and move its detail block to the Closed / Completed Projects section.
+
+**Closed / Completed Projects Section:**
+
+Each entry should include:
+
+- What was delivered (brief description of outputs)
+- Completion or closure date
+- File references (paths to deliverables, specs, or artifacts produced)
+- Reason for closure if not completed-with-delivery (e.g., scope shift, deprioritized, blocked indefinitely)
+
+**Why this section order:** the Summary lets a returning operator (or AI) see live state immediately without scrolling; Notes/Reference supplies the context needed to act on any of those items; Open Projects is the detailed surface; Closed / Completed sits at the bottom because it's reference, not active work. If you wrote the sections in a different order historically, move them at the next meaningful edit — don't force a one-off reshuffle.
+
+This structure scales from single-project tasks files to multi-project tracking while keeping the summary scannable and the detail organized.
+
 ### Cross-repo pointer convention (hub→spoke companions — optional)
 
 If this repo is a **hub** in a multi-repo hub-and-spoke setup, conversation files may sometimes need to reference content that lives in a separate spoke repo (typically live code or active output that wasn't migrated to the hub). The Option α convention (adopted as canonical for the workspace-chevan hub on 2026-05-31; portable to any hub) uses a `companionRepo` + `companionPath` field pair in frontmatter:
