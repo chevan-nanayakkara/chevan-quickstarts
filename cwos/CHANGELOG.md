@@ -8,6 +8,24 @@ The version here tracks this starter's content evolution. It is independent of t
 
 ---
 
+## [1.8.0] — 2026-06-16
+
+### Added
+
+**New `## FILE OPERATIONS` top-level section in `AICONFIG.template.md`** (placed after `## STANDARDS - MAINTENANCE`, before `## 📋 REFERENCE`) with subsection `### Editing files: use the Edit/Write tools, not terminal in-place edits`.
+
+The rule: when changing a file's contents, use the dedicated Edit and Write tools, never terminal in-place edits (`perl -i`, `sed -i`, `awk -i`, or `>` / `>>` redirects that rewrite a file). Terminal writes bypass the editor sync, so if the file is open in the operator's editor, the editor's buffer overwrites the terminal change on its next save and silently reverts the work. Terminal reads/searches (`grep`, `wc`, `cat` for inspection) are fine; only *writes* must go through the tools. Bulk transforms that are genuinely unavoidable need the operator to close or reload the file first.
+
+### Notes
+
+Origin: June 16, 2026, in workspace-chevan — a `perl -i` pass adding horizontal-rule separators to a conversation file was applied to disk correctly but reverted twice by the operator's open editor saving its older buffer; Edit-tool entries in the same session survived because they synced to the IDE. workspace-chevan codified the rule in its own AICONFIG.md `## FILE OPERATIONS` section the same day; chevan-content carries the matching rule in v5.12.0; this v1.8.0 release ports the rule to the chevan-quickstarts CWOS template so the rule reaches all future bootstrapped repos.
+
+This is a general AI-editing-discipline rule, not specific to any one repo's content shape. Bumped MINOR per SemVer (new behavioral rule).
+
+Driving conversation: chevan-content `aiconversations/_system/operations/conversational-work-operations-conversation.md` (entry 2026-06-16 10:07PM, seeded from workspace-chevan).
+
+---
+
 ## [1.7.0] — 2026-06-16
 
 ### Added

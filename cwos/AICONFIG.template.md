@@ -258,6 +258,14 @@ The canonical worked example of the 4-rule pattern is the workspace-chevan May 3
 
 ---
 
+## FILE OPERATIONS
+
+### Editing files: use the Edit/Write tools, not terminal in-place edits
+
+When changing a file's contents, use the dedicated Edit and Write tools, not terminal in-place edits (`perl -i`, `sed -i`, `awk -i`, or `>` / `>>` redirects that rewrite a file). Terminal writes bypass the editor sync, so if the file is open in the operator's editor, the editor's buffer overwrites the terminal change on its next save, silently reverting the work. This matters most for `aiconversations/` files, which the operator usually has open. Terminal commands for reading and searching (`grep`, `wc`, inspecting with `cat`) are fine; it is *writes* that must go through the tools. If a bulk transform is genuinely unavoidable, ask the operator to close or reload the file first, then apply it. (Codified June 16, 2026 after a `perl`-applied horizontal-rule pass to a conversation file was repeatedly reverted by the open editor — Edit-tool entries in the same session survived because they synced to the IDE.)
+
+---
+
 ## 📋 REFERENCE
 
 ### Common Mistakes to Avoid
